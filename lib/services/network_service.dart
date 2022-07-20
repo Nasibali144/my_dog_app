@@ -29,12 +29,12 @@ class NetworkService {
   // headers
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
-    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56d',
+    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56',
   };
 
   static Map<String, String> headersForUpload = {
     'Content-Type': 'multipart/form-data',
-    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56d',
+    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56',
   };
 
   // interceptor
@@ -53,7 +53,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> POST(String api, Map<String, String> params, Map<String, String> body,) async{
+  static Future<String?> POST(String api, Map<String, String> params, Map<String, dynamic> body,) async{
     Uri url = Uri.https(BASEURL, api);
     final response = await http.post(url, headers: headers, body: jsonEncode(body), params: params);
 
@@ -63,7 +63,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> PUT(String api, Map<String, String> params, Map<String, String> body,) async{
+  static Future<String?> PUT(String api, Map<String, String> params, Map<String, dynamic> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.put(url, headers: headers, body: jsonEncode(body));
 
@@ -73,7 +73,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> PATCH(String api, Map<String, String> params, Map<String, String> body,) async{
+  static Future<String?> PATCH(String api, Map<String, String> params, Map<String, dynamic> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.patch(url, headers: headers, body: jsonEncode(body));
 
@@ -132,11 +132,11 @@ class NetworkService {
   }
 
   // bodies
-  static Map<String, String> bodyVotes(String imageId, String subId, int value) {
-    Map<String, String> map = {
+  static Map<String, dynamic> bodyVotes(String imageId, String subId, int value) {
+    Map<String, dynamic> map = {
       "image_id": imageId,
       "sub_id": subId,
-      "value": value.toString()
+      "value": value
     };
     return map;
   }
