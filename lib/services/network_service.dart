@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
@@ -22,16 +24,17 @@ class NetworkService {
   static const API_LIST_BREADS = "/v1/breeds";
   static const API_BREADS_SEARCH = "/v1/breeds/search";
   static const API_LIST_VOTES = "v1/votes";
+  static const API_ONE_VOTE = "v1/votes/"; // {ID}
 
   // headers
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
-    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56',
+    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56d',
   };
 
   static Map<String, String> headersForUpload = {
     'Content-Type': 'multipart/form-data',
-    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56',
+    'x-api-key': '19abbefc-b253-4f39-a7ee-769267b6cd56d',
   };
 
   // interceptor
@@ -50,9 +53,9 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> POST(String api, Map<String, String> params, Map<String, dynamic> body,) async{
-    Uri url = Uri.https(BASEURL, api, params);
-    final response = await http.post(url, headers: headers, body: body);
+  static Future<String?> POST(String api, Map<String, String> params, Map<String, String> body,) async{
+    Uri url = Uri.https(BASEURL, api);
+    final response = await http.post(url, headers: headers, body: jsonEncode(body), params: params);
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       return response.body;
@@ -60,9 +63,9 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> PUT(String api, Map<String, String> params, Map<String, dynamic> body,) async{
+  static Future<String?> PUT(String api, Map<String, String> params, Map<String, String> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
-    final response = await http.put(url, headers: headers, body: body);
+    final response = await http.put(url, headers: headers, body: jsonEncode(body));
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       return response.body;
@@ -70,9 +73,9 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> PATCH(String api, Map<String, String> params, Map<String, dynamic> body,) async{
+  static Future<String?> PATCH(String api, Map<String, String> params, Map<String, String> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
-    final response = await http.patch(url, headers: headers, body: body);
+    final response = await http.patch(url, headers: headers, body: jsonEncode(body));
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       return response.body;
@@ -129,11 +132,11 @@ class NetworkService {
   }
 
   // bodies
-  static Map<String, dynamic> bodyVotes(String imageId, String subId, int value) {
-    Map<String, dynamic> map = {
+  static Map<String, String> bodyVotes(String imageId, String subId, int value) {
+    Map<String, String> map = {
       "image_id": imageId,
       "sub_id": subId,
-      "value": value
+      "value": value.toString()
     };
     return map;
   }
