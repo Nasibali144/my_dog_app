@@ -28,4 +28,15 @@ void main() {
       expect(breedList, isList);
     });
   });
+
+  // API_LIST_VOTES
+  group("Test: Votes", () {
+    String? response;
+    test("test1: get all votes", () async {
+      response = await NetworkService.GET(NetworkService.API_LIST_VOTES, NetworkService.paramsVotesList());
+      expect(response, isNotNull);
+    });
+
+    test("test2: parsing votes", () {});
+  });
 }

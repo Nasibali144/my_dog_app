@@ -21,6 +21,7 @@ class NetworkService {
   // apis
   static const API_LIST_BREADS = "/v1/breeds";
   static const API_BREADS_SEARCH = "/v1/breeds/search";
+  static const API_LIST_VOTES = "v1/votes";
 
   // headers
   static Map<String, String> headers = {
@@ -39,7 +40,7 @@ class NetworkService {
   ]);
 
   // methods
-  static Future<String?> GET(String api, Map<String, dynamic> params) async{
+  static Future<String?> GET(String api, Map<String, String> params) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.get(url, headers: headers);
 
@@ -49,7 +50,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> POST(String api, Map<String, dynamic> params, Map<String, dynamic> body,) async{
+  static Future<String?> POST(String api, Map<String, String> params, Map<String, dynamic> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.post(url, headers: headers, body: body);
 
@@ -59,7 +60,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> PUT(String api, Map<String, dynamic> params, Map<String, dynamic> body,) async{
+  static Future<String?> PUT(String api, Map<String, String> params, Map<String, dynamic> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.put(url, headers: headers, body: body);
 
@@ -69,7 +70,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> PATCH(String api, Map<String, dynamic> params, Map<String, dynamic> body,) async{
+  static Future<String?> PATCH(String api, Map<String, String> params, Map<String, dynamic> body,) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.patch(url, headers: headers, body: body);
 
@@ -79,7 +80,7 @@ class NetworkService {
     return null;
   }
 
-  static Future<String?> DELETE(String api, Map<String, dynamic> params) async{
+  static Future<String?> DELETE(String api, Map<String, String> params) async{
     Uri url = Uri.https(BASEURL, api, params);
     final response = await http.delete(url, headers: headers);
 
@@ -104,15 +105,26 @@ class NetworkService {
   }
 
   // params
-  static Map<String, dynamic> paramsEmpty() {
-    Map<String, dynamic> map = {};
+  static Map<String, String> paramsEmpty() {
+    Map<String, String> map = {};
     return map;
   }
 
-  static Map<String, dynamic> paramsBreedSearch(String queryName) {
-    Map<String, dynamic> map = {
+  static Map<String, String> paramsBreedSearch(String queryName) {
+    Map<String, String> map = {
       'q': queryName
     };
+    return map;
+  }
+
+  static Map<String, String> paramsVotesList({int limit = 10, int page = 0, String? subId}) {
+    Map<String, String> map = {
+      'limit': limit.toString(),
+      'page': page.toString()
+    };
+    if(subId != null) {
+      map.addAll({"sub_id": subId});
+    }
     return map;
   }
 
