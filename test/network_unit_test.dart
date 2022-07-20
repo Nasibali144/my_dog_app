@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_dog_app/models/image_model.dart' hide Breeds;
 import 'package:my_dog_app/models/vote_model.dart';
-import 'package:my_dog_app/models/breed_model.dart';
+import 'package:my_dog_app/models/breed_model.dart' hide Image;
 import 'package:my_dog_app/services/network_service.dart';
 
 void main() {
@@ -66,8 +67,36 @@ void main() {
 
     String? responseDelete;
     test("test6: delete my old vote", () async {
-      responseDelete = await NetworkService.DELETE(NetworkService.API_ONE_VOTE + "104025", NetworkService.paramsEmpty());
+      responseDelete = await NetworkService.DELETE("${NetworkService.API_ONE_VOTE}104077", NetworkService.paramsEmpty());
       expect(responseDelete is String, true);
     });
+  });
+
+  // API_IMAGE
+  group("Test: Images", () {
+    String? resAllImages;
+    test("test1: get all images", () async {
+      resAllImages = await NetworkService.GET(NetworkService.API_IMAGE_LIST, NetworkService.paramsImageSearch(size: "full"));
+      expect(resAllImages, isNotNull);
+    });
+
+    List<Image>? imageList;
+    test("test2: parsing images", () {
+      imageList = imageListFromJson(resAllImages!);
+      expect(imageList!.isNotEmpty, isTrue);
+    });
+
+    String? resUploadImg;
+    test("test3: upload images", () async {
+      resUploadImg = await NetworkService.MULTIPART(NetworkService.API_IMAGE_UPLOAD, "assets/images/alabay.jpeg", NetworkService.bodyImageUpload("this-alabay"));
+      expect(resUploadImg, isNotNull);
+    });
+
+    String? resGetMyImage;
+    test("test4: get my image", () async {
+      resGetMyImage = await NetworkService.GET(NetworkService.API_MY_IMAGES, NetworkService.paramsMyImage());
+      expect(resGetMyImage, isNotNull);
+    });
+
   });
 }

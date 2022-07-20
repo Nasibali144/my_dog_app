@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:my_dog_app/services/interceptor_service.dart';
+import 'package:my_dog_app/services/log_service.dart';
 
 class NetworkService {
   // baseUrl
@@ -23,8 +24,11 @@ class NetworkService {
   // apis
   static const API_LIST_BREADS = "/v1/breeds";
   static const API_BREADS_SEARCH = "/v1/breeds/search";
-  static const API_LIST_VOTES = "v1/votes";
-  static const API_ONE_VOTE = "v1/votes/"; // {ID}
+  static const API_LIST_VOTES = "/v1/votes";
+  static const API_ONE_VOTE = "/v1/votes/"; // {ID}
+  static const API_IMAGE_LIST = "/v1/images/search";
+  static const API_IMAGE_UPLOAD = "/v1/images/upload";
+  static const API_MY_IMAGES = "/v1/images";
 
   // headers
   static Map<String, String> headers = {
@@ -101,8 +105,11 @@ class NetworkService {
     request.fields.addAll(body);
     StreamedResponse response = await request.send();
     if (response.statusCode == 200 || response.statusCode == 201) {
+      LogService.o(response.reasonPhrase.toString());
+      LogService.o(response.statusCode.toString());
       return await response.stream.bytesToString();
     } else {
+      LogService.e(response.reasonPhrase.toString());
       return response.reasonPhrase;
     }
   }
@@ -131,12 +138,59 @@ class NetworkService {
     return map;
   }
 
+  static Map<String, String> paramsImageSearch({String size = "med", List<String>? mimeType, String order = "RANDOM", int limit = 10, int page = 0, List<int>? categoryIds, String format = "json", String? breedId}) {
+    // size: full, med, small, thumb
+    // order: RANDOM, ASC, DESC
+    // format: json, src
+    Map<String, String> map = {
+      'limit': limit.toString(),
+      'page': page.toString(),
+      'size': size,
+      'order': order,
+      'format': format,
+    };
+    
+    if(mimeType != null) map.addAll({"mime_types": jsonEncode(mimeType)});
+    if(categoryIds != null) map.addAll({"category_ids": jsonEncode(categoryIds)});
+    if(breedId != null) map.addAll({"breed_id": breedId});
+
+    return map;
+  }
+
+  static Map<String, String> paramsMyImage({List<String>? breedsId, String order = "RANDOM", int limit = 10, int page = 0, List<String>? categoryIds, String format = "json", String? subId, String? originalFileName, int? includeVote, int? includeFavorite}) {
+    // order: RANDOM, ASC, DESC
+    // format: json, src
+    Map<String, String> map = {
+      'limit': limit.toString(),
+      'page': page.toString(),
+      'order': order,
+      'format': format,
+    };
+
+    if(breedsId != null) map.addAll({"breed_ids": jsonEncode(breedsId)});
+    if(categoryIds != null) map.addAll({"category_ids": jsonEncode(categoryIds)});
+    if(subId != null) map.addAll({"sub_id": subId});
+    if(originalFileName != null) map.addAll({"original_filename": originalFileName});
+    if(includeVote != null) map.addAll({"include_vote": includeVote.toString()});
+    if(includeFavorite != null) map.addAll({"include_favorite": includeFavorite.toString()});
+
+    return map;
+  }
+
+
   // bodies
   static Map<String, dynamic> bodyVotes(String imageId, String subId, int value) {
     Map<String, dynamic> map = {
       "image_id": imageId,
       "sub_id": subId,
       "value": value
+    };
+    return map;
+  }
+
+  static Map<String, String> bodyImageUpload(String subId) {
+    Map<String, String> map = {
+      "sub_id": subId,
     };
     return map;
   }
