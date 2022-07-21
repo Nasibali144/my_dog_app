@@ -17,6 +17,9 @@ dependencies:
   http: ^0.13.4
   http_interceptor: ^1.0.2
 
+  # database
+  hive_flutter: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
