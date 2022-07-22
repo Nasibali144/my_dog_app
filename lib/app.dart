@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_dog_app/pages/home_page.dart';
+import 'package:my_dog_app/pages/main_page.dart';
 
 class MyDogApp extends StatelessWidget {
   const MyDogApp({Key? key}) : super(key: key);
@@ -9,7 +9,7 @@ class MyDogApp extends StatelessWidget {
     return const MaterialApp(
       title: "My Dog App",
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: MainPage(),
     );
   }
 }
