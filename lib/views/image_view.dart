@@ -12,12 +12,29 @@ class ImageView extends StatefulWidget {
 
 class _ImageViewState extends State<ImageView> {
 
+  late Image image;
+  double ratio = 16 / 9;
+
+  @override
+  void initState() {
+    super.initState();
+    _convertData();
+  }
+
+  void _convertData() {
+    image = widget.image;
+    if(image.width != null && image.height != null) {
+      ratio = image.width! / image.height!;
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: widget.image.width! / widget.image.height!,
+      aspectRatio: ratio,
       child: CachedNetworkImage(
-        imageUrl: widget.image.url!,
+        imageUrl: image.url!,
         placeholder: (context, url) => CircularProgressIndicator(),
         errorWidget: (context, url, error) => Icon(Icons.error),
       ),
