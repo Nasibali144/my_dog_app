@@ -13,12 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  final List<Widget> _pages = [
-    HomeScreen(),
-    Container(color: Colors.grey,),
-    Container(color: Colors.blue,),
-    Container(color: Colors.green,),
-  ];
   int _initialPage = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -37,7 +31,12 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: _pages,
+        children: [
+          HomeScreen(crossAxisCount: widget.crossAxisCount,),
+          Container(color: Colors.grey,),
+          Container(color: Colors.blue,),
+          Container(color: Colors.green,),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
