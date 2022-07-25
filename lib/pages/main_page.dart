@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_dog_app/pages/home_phone_page.dart';
+
+import 'home_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -13,18 +14,17 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, boxConstraints) {
-        // if(boxConstraints.maxWidth < 600) {
-        //   // phone
-        //   return ;
-        // } if(boxConstraints.maxWidth < 1025) {
-        //   // tablet
-        //   return ;
-        // } else {
-        //   // desktop
-        //   return ;
-        // }
-
-        return const HomePhonePage();
+        int crossAxisCount = boxConstraints.maxWidth ~/ 250;
+        if(boxConstraints.maxWidth < 580) {
+          // phone
+          return const HomePage(crossAxisCount: 2);
+        } if(boxConstraints.maxWidth < 1025) {
+          // tablet
+          return HomePage(crossAxisCount: crossAxisCount);
+        } else {
+          // desktop
+          return HomePage(crossAxisCount: crossAxisCount);
+        }
       }
     );
   }
