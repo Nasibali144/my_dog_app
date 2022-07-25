@@ -12,9 +12,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController controller = PageController();
+  // PageStorageKey key1 = const PageStorageKey(0);
+  // PageStorageKey key2 = const PageStorageKey(1);
+  PageController controller = PageController(keepPage: true);
   int currentScreen = 0;
   List<Image> allImage = [];
+
+  int get limit {
+    return widget.crossAxisCount * 15;
+  }
 
   void pressButton(int screen) {
     currentScreen = screen;
@@ -70,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: controller,
         onPageChanged: onScreenChanged,
         children: [
-          GalleryView(api: NetworkService.API_IMAGE_LIST, crossAxisCount: widget.crossAxisCount, params: NetworkService.paramsImageSearch(size: "full"),),
-          Container(color: Colors.cyan,),
+          GalleryView(api: NetworkService.API_IMAGE_LIST, crossAxisCount: widget.crossAxisCount, params: NetworkService.paramsImageSearch(size: "full", limit: limit),),
+          GalleryView(api: NetworkService.API_MY_IMAGES, crossAxisCount: widget.crossAxisCount, params: NetworkService.paramsMyImage(limit: limit),),
         ],
       ),
     );

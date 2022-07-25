@@ -14,26 +14,43 @@ class GalleryView extends StatefulWidget {
   State<GalleryView> createState() => _GalleryViewState();
 }
 
-class _GalleryViewState extends State<GalleryView> {
+class _GalleryViewState extends State<GalleryView> with AutomaticKeepAliveClientMixin{
 
   List<Image> items = [];
+  ScrollController controller = ScrollController();
+  Map<String, String> params = {};
+  int currentPage = 0;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    apiGetAllImage();
+    params = widget.params;
+    apiGetAllImage(currentPage++);
+    controller.addListener(loadMore);
   }
 
-  void apiGetAllImage() async {
-    String? resAllImages = await NetworkService.GET(widget.api, widget.params);
-    items = imageListFromJson(resAllImages!);
+  void apiGetAllImage(int page) async {
+    params['page'] = page.toString();
+    String? resAllImages = await NetworkService.GET(widget.api, params);
+    items.addAll(imageListFromJson(resAllImages!));
     setState(() {});
   }
 
+  void loadMore() {
+    print("controller.position.maxScrollExtent: ${controller.position.maxScrollExtent}");
+    print("controller.offset: ${controller.position.pixels}");
+    if(controller.position.maxScrollExtent == controller.position.pixels) {
+      apiGetAllImage(currentPage++);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MasonryGridView.count(
+      controller: controller,
       crossAxisCount: widget.crossAxisCount,
       itemCount: items.length,
       mainAxisSpacing: 10,

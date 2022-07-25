@@ -14,11 +14,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int _initialPage = 0;
-  PageController pageController = PageController(initialPage: 0);
 
   void _onPageChanged(int page) {
     _initialPage = page;
-    pageController.jumpToPage(page);
     setState(() {});
   }
 
@@ -28,9 +26,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
+      body: IndexedStack(
+        index: _initialPage,
         children: [
           HomeScreen(crossAxisCount: widget.crossAxisCount,),
           Container(color: Colors.grey,),
