@@ -1,11 +1,10 @@
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart' hide Image;
-import 'package:my_dog_app/models/image_model.dart';
+import 'package:flutter/material.dart';
+import 'package:my_dog_app/models/image_model.dart' as model;
 
 class ImageView extends StatefulWidget {
-  final Image image;
+  final model.Image image;
   const ImageView({Key? key, required this.image}) : super(key: key);
 
   @override
@@ -14,7 +13,7 @@ class ImageView extends StatefulWidget {
 
 class _ImageViewState extends State<ImageView> {
 
-  late Image image;
+  late model.Image image;
   double ratio = 16 / 9;
 
   @override

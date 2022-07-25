@@ -12,8 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // PageStorageKey key1 = const PageStorageKey(0);
-  // PageStorageKey key2 = const PageStorageKey(1);
   PageController controller = PageController(keepPage: true);
   int currentScreen = 0;
   List<Image> allImage = [];

@@ -26,17 +26,50 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _initialPage,
+      body: Row(
         children: [
-          HomeScreen(crossAxisCount: widget.crossAxisCount,),
-          Container(color: Colors.grey,),
-          Container(color: Colors.blue,),
-          Container(color: Colors.green,),
+          Visibility(
+             visible: widget.crossAxisCount > 3,
+             child: NavigationRail(
+               minWidth: 100,
+              onDestinationSelected: _onPageChanged,
+                destinations: [
+                  NavigationRailDestination(
+                    label: Text("Home"),
+                    icon: Icon(Icons.home_filled, size: _iconSize(0), color: _iconColor(0)),
+                  ),
+                  NavigationRailDestination(
+                    label: Text("Search"),
+                    icon: Icon(Icons.search, size: _iconSize(1), color: _iconColor(1)),
+                  ),
+                  NavigationRailDestination(
+                    label: Text("Category"),
+                    icon: Icon(CupertinoIcons.chat_bubble_text_fill, size: _iconSize(2), color: _iconColor(2)),
+                  ),
+                  NavigationRailDestination(
+                    label: Text("Profile"),
+                    icon: Icon(CupertinoIcons.profile_circled, size: _iconSize(3), color: _iconColor(3)),
+                  ),
+                ],
+                selectedIndex: _initialPage
+          ),
+           ),
+          SizedBox(
+            width: widget.crossAxisCount > 3 ? MediaQuery.of(context).size.width - 100 : MediaQuery.of(context).size.width,
+            child: IndexedStack(
+              index: _initialPage,
+              children: [
+                HomeScreen(crossAxisCount: widget.crossAxisCount,),
+                Container(color: Colors.grey,),
+                Container(color: Colors.blue,),
+                Container(color: Colors.green,),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
+      floatingActionButton: widget.crossAxisCount <= 3 ? Container(
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 60),
         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -68,7 +101,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
+      ) : null,
     );
   }
 }
