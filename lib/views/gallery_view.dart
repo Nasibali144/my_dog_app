@@ -40,8 +40,6 @@ class _GalleryViewState extends State<GalleryView> with AutomaticKeepAliveClient
   }
 
   void loadMore() {
-    print("controller.position.maxScrollExtent: ${controller.position.maxScrollExtent}");
-    print("controller.offset: ${controller.position.pixels}");
     if(controller.position.maxScrollExtent == controller.position.pixels) {
       apiGetAllImage(currentPage++);
     }
