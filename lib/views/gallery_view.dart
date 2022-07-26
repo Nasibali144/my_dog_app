@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:my_dog_app/models/image_model.dart';
@@ -49,6 +51,9 @@ class _GalleryViewState extends State<GalleryView> with AutomaticKeepAliveClient
     items = [];
     currentPage = 0;
     setState(() {});
+    if(Platform.isAndroid) {
+      apiGetAllImage(currentPage++);
+    }
   }
 
   @override

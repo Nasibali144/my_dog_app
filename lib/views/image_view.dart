@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_dog_app/models/image_model.dart' as model;
+import 'package:my_dog_app/pages/mobile/detail_page.dart';
 import 'package:my_dog_app/services/network_service.dart';
 
 class ImageView extends StatefulWidget {
@@ -57,6 +58,27 @@ class _ImageViewState extends State<ImageView> {
       debugPrint(responseFavorite);
     }
   }
+  
+  void openDetailPage() {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>  DetailPage(image: image),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            var begin = const Offset(0.0, 1.0);
+            var end = Offset.zero;
+            var curve = Curves.ease;
+
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+        )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +89,7 @@ class _ImageViewState extends State<ImageView> {
         // #image
         GestureDetector(
           onDoubleTap: _favorite,
+          onTap: openDetailPage,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: AspectRatio(
