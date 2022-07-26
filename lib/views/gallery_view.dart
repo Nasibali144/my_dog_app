@@ -45,18 +45,27 @@ class _GalleryViewState extends State<GalleryView> with AutomaticKeepAliveClient
     }
   }
 
+  Future<void> onRefresh() async {
+    items = [];
+    currentPage = 0;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MasonryGridView.count(
-      controller: controller,
-      crossAxisCount: widget.crossAxisCount,
-      itemCount: items.length,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      padding: const EdgeInsets.all(10),
-      itemBuilder: (context, index) {
-        return ImageView(image: items[index]);
-      },
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: MasonryGridView.count(
+        controller: controller,
+        crossAxisCount: widget.crossAxisCount,
+        itemCount: items.length,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        padding: const EdgeInsets.all(10),
+        itemBuilder: (context, index) {
+          return ImageView(image: items[index]);
+        },
+      ),
     );
   }
 }

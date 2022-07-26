@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_dog_app/models/image_model.dart' as model;
@@ -65,7 +64,6 @@ class _ImageViewState extends State<ImageView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-
         // #image
         GestureDetector(
           onDoubleTap: _favorite,
@@ -74,6 +72,7 @@ class _ImageViewState extends State<ImageView> {
             child: AspectRatio(
               aspectRatio: ratio,
               child: Stack(
+                alignment: Alignment.center,
                 children: [
                   CachedNetworkImage(
                     imageUrl: image.url!,
