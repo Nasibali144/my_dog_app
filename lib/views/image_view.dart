@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:my_dog_app/models/image_model.dart' as model;
+import 'package:my_dog_app/services/network_service.dart';
 
 class ImageView extends StatefulWidget {
   final model.Image image;
@@ -16,6 +19,9 @@ class ImageView extends StatefulWidget {
 class _ImageViewState extends State<ImageView> {
   late model.Image image;
   double ratio = 16 / 9;
+  bool visible = false;
+  bool isLike = false;
+  String? favoriteId;
 
   @override
   void initState() {
@@ -31,26 +37,86 @@ class _ImageViewState extends State<ImageView> {
     setState(() {});
   }
 
+  void _favorite() async {
+
+    setState(() {
+      isLike = !isLike;
+      visible = true;
+    });
+
+    if(isLike) {
+      String? responseFavorite = await NetworkService.POST(NetworkService.API_MY_FAVORITE, NetworkService.paramsEmpty(), NetworkService.bodyFavourite(image.id.toString(), subId: image.subId));
+      debugPrint(responseFavorite);
+      if(responseFavorite != null) {
+        favoriteId = jsonDecode(responseFavorite)["id"].toString();
+        setState(() {});
+      }
+    }
+
+    if(!isLike) {
+      String? responseFavorite = await NetworkService.DELETE("${NetworkService.API_FAVORITE_DELETE}$favoriteId", NetworkService.paramsEmpty());
+      debugPrint(responseFavorite);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    debugPrint(image.toJson().toString());
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
 
         // #image
         GestureDetector(
-          onDoubleTap: () {},
+          onDoubleTap: _favorite,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: AspectRatio(
               aspectRatio: ratio,
-              child: CachedNetworkImage(
-                imageUrl: image.url!,
-                placeholder: (context, url) => Container(
-                  color: Colors.primaries[Random().nextInt(18) % 18],
-                ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: image.url!,
+                    placeholder: (context, url) => Container(
+                      color: Colors.primaries[Random().nextInt(18) % 18],
+                    ),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+
+                  if(!isLike && visible)
+                    Center(
+                        child: Lottie.asset(
+                            "assets/lottie/lottie_broken_heart.json",
+                            repeat: false,
+                            onLoaded: (lottieComposition) {
+                              Future.delayed(
+                                lottieComposition.duration,
+                                    () {
+                                  setState(() {
+                                    visible = false;
+                                  });
+                                },);
+                            }
+                        )
+                    ),
+
+                  if(isLike && visible)
+                    Center(
+                        child: Lottie.asset(
+                            "assets/lottie/lottie_heart.json",
+                            repeat: false,
+                            onLoaded: (lottieComposition) {
+                              Future.delayed(
+                                lottieComposition.duration,
+                                    () {
+                                  setState(() {
+                                    visible = false;
+                                  });
+                                },);
+                            }
+                        )
+                    ),
+                ],
               ),
             ),
           ),

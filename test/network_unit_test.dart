@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_dog_app/models/image_model.dart' hide Breeds;
 import 'package:my_dog_app/models/vote_model.dart';
@@ -98,5 +99,25 @@ void main() {
       expect(resGetMyImage, isNotNull);
     });
 
+  });
+  
+  // API_FAVORITE
+  group("Test: Favorite", () {
+    String? responseFavorite;
+    test("test1: create favorite", () async {
+      responseFavorite = await NetworkService.POST(NetworkService.API_MY_FAVORITE, NetworkService.paramsEmpty(), NetworkService.bodyFavourite("4yghDUdnE"));
+      if (kDebugMode) {
+        print(responseFavorite);
+      }
+      expect(responseFavorite, isNotNull);
+    });
+
+    test("test2: delete favorite", () async {
+      responseFavorite = await NetworkService.DELETE("${NetworkService.API_FAVORITE_DELETE}49913", NetworkService.paramsEmpty());
+      if (kDebugMode) {
+        print(responseFavorite);
+      }
+      expect(responseFavorite, isNotNull);
+    });
   });
 }

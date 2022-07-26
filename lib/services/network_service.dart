@@ -29,6 +29,8 @@ class NetworkService {
   static const API_IMAGE_LIST = "/v1/images/search";
   static const API_IMAGE_UPLOAD = "/v1/images/upload";
   static const API_MY_IMAGES = "/v1/images";
+  static const API_MY_FAVORITE = "/v1/favourites";
+  static const API_FAVORITE_DELETE = "/v1/favourites/"; // {ID}
 
   // headers
   static Map<String, String> headers = {
@@ -192,6 +194,18 @@ class NetworkService {
     Map<String, String> map = {
       "sub_id": subId,
     };
+    return map;
+  }
+
+  static Map<String, String> bodyFavourite(String imageId, {String? subId}) {
+    Map<String, String> map = {
+      "image_id": imageId,
+    };
+
+    if(subId != null) {
+      map.addAll({"sub_id": subId});
+    }
+
     return map;
   }
 
