@@ -8,9 +8,10 @@ import 'package:my_dog_app/pages/mobile/detail_page.dart';
 import 'package:my_dog_app/services/network_service.dart';
 
 class ImageView extends StatefulWidget {
+  final int crossAxisCount;
   final model.Image image;
 
-  const ImageView({Key? key, required this.image}) : super(key: key);
+  const ImageView({Key? key, required this.image, this.crossAxisCount = 2}) : super(key: key);
 
   @override
   State<ImageView> createState() => _ImageViewState();
@@ -63,7 +64,7 @@ class _ImageViewState extends State<ImageView> {
     Navigator.push(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>  DetailPage(image: image),
+          pageBuilder: (context, animation, secondaryAnimation) =>  DetailPage(image: image, crossAxisCount: widget.crossAxisCount,),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             var begin = const Offset(0.0, 1.0);
             var end = Offset.zero;
