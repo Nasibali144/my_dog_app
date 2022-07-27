@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_dog_app/pages/mobile/home_screen.dart';
+import 'package:my_dog_app/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   final int crossAxisCount;
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 HomeScreen(crossAxisCount: widget.crossAxisCount,),
                 Container(color: Colors.grey,),
                 Container(color: Colors.blue,),
-                Container(color: Colors.green,),
+                ProfilePage(crossAxisCount: widget.crossAxisCount,),
               ],
             ),
           ),
@@ -76,6 +77,14 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(35),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              blurRadius: 20,
+              spreadRadius: 0.5,
+              blurStyle: BlurStyle.normal
+            )
+          ]
         ),
         alignment: Alignment.center,
         child: Row(
