@@ -77,7 +77,7 @@ void main() {
   group("Test: Images", () {
     String? resAllImages;
     test("test1: get all images", () async {
-      resAllImages = await NetworkService.GET(NetworkService.API_IMAGE_LIST, NetworkService.paramsImageSearch(size: "full"));
+      resAllImages = await NetworkService.GET(NetworkService.API_IMAGE_LIST, NetworkService.paramsImageSearch(size: "small"));
       expect(resAllImages, isNotNull);
     });
 

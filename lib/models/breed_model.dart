@@ -1,3 +1,4 @@
+library breed;
 import 'dart:convert';
 
 List<Breed> breedListFromJson(String str) {

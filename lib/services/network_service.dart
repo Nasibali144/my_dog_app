@@ -181,12 +181,15 @@ class NetworkService {
 
 
   // bodies
-  static Map<String, dynamic> bodyVotes(String imageId, String subId, int value) {
+  static Map<String, dynamic> bodyVotes(String imageId, String? subId, int value) {
     Map<String, dynamic> map = {
       "image_id": imageId,
-      "sub_id": subId,
       "value": value
     };
+
+    if(subId != null) {
+      map.addAll({"sub_id": subId,});
+    }
     return map;
   }
 

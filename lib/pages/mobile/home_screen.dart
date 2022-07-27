@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: controller,
         onPageChanged: onScreenChanged,
         children: [
-          GalleryView(api: NetworkService.API_IMAGE_LIST, crossAxisCount: widget.crossAxisCount, params: NetworkService.paramsImageSearch(size: "full", limit: limit),),
+          GalleryView(api: NetworkService.API_IMAGE_LIST, crossAxisCount: widget.crossAxisCount, params: NetworkService.paramsImageSearch(size: "small", limit: limit),),
           GalleryView(api: NetworkService.API_MY_IMAGES, crossAxisCount: widget.crossAxisCount, params: NetworkService.paramsMyImage(limit: limit),),
         ],
       ),
