@@ -112,7 +112,7 @@ class NetworkService {
       return await response.stream.bytesToString();
     } else {
       LogService.e(response.reasonPhrase.toString());
-      return response.reasonPhrase;
+      return null;
     }
   }
 

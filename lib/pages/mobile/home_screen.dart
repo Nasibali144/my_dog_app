@@ -4,15 +4,16 @@ import 'package:my_dog_app/services/network_service.dart';
 import 'package:my_dog_app/views/gallery_view.dart';
 
 class HomeScreen extends StatefulWidget {
+  final int subPage;
   final int crossAxisCount;
-  const HomeScreen({Key? key, this.crossAxisCount = 2}) : super(key: key);
+  const HomeScreen({Key? key, this.crossAxisCount = 2, this.subPage = 0}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController controller = PageController(keepPage: true);
+  late PageController controller;
   int currentScreen = 0;
   List<Image> allImage = [];
 
@@ -31,6 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  @override
+  void initState() {
+    currentScreen = widget.subPage;
+    controller = PageController(initialPage: widget.subPage, keepPage: true);
+    super.initState();
+  }
 
 
 

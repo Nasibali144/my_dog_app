@@ -4,9 +4,10 @@ import 'package:my_dog_app/pages/mobile/home_screen.dart';
 import 'package:my_dog_app/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
+  final int subPage;
   final int crossAxisCount;
   static const id = "";
-  const HomePage({Key? key, this.crossAxisCount = 2}) : super(key: key);
+  const HomePage({Key? key, this.crossAxisCount = 2, this.subPage = 0}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
             child: IndexedStack(
               index: _initialPage,
               children: [
-                HomeScreen(crossAxisCount: widget.crossAxisCount,),
+                HomeScreen(crossAxisCount: widget.crossAxisCount, subPage: widget.subPage),
                 Container(color: Colors.grey,),
                 Container(color: Colors.blue,),
                 ProfilePage(crossAxisCount: widget.crossAxisCount,),
