@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:my_dog_app/pages/mobile/home_screen.dart';
 import 'package:my_dog_app/pages/profile_page.dart';
 
+import 'category_page.dart';
+import 'search_page.dart';
+
 class HomePage extends StatefulWidget {
   final int subPage;
   final int crossAxisCount;
@@ -62,8 +65,8 @@ class _HomePageState extends State<HomePage> {
               index: _initialPage,
               children: [
                 HomeScreen(crossAxisCount: widget.crossAxisCount, subPage: widget.subPage),
-                Container(color: Colors.grey,),
-                Container(color: Colors.blue,),
+                const SearchPage(),
+                const CategoryPage(),
                 ProfilePage(crossAxisCount: widget.crossAxisCount,),
               ],
             ),
