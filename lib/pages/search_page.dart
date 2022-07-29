@@ -56,6 +56,7 @@ class _SearchPageState extends State<SearchPage> {
     _images = [];
     _breedId = selection.id!;
     _page = 0;
+    _isFinally = false;
     setState(() {});
     _apiGetAllImage(_page++);
   }

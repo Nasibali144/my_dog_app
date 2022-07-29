@@ -35,9 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListTile(
               leading: const Icon(Icons.photo_camera),
               title: const Text("Camera"),
-              onTap: () {
-                print("Camera");
-              },
+              onTap: _camera,
             ),
           ],
         ),
@@ -55,11 +53,17 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _camera() async {
-    // TODO: Hometask1 for B17
+    Navigator.of(context).pop();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      file = File(image.path);
+    }
+    setState(() {});
   }
 
   void _clear() {
-    // TODO: Hometask2 for B17
+    file = null;
+    setState(() {});
   }
 
   void _upload() async {
@@ -116,6 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -140,10 +145,10 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 flex: 2,
                 child: Center(
-                  child: GestureDetector(
-                    onTap: _getImage,
-                    child: file == null
-                        ? Container(
+                  child: file == null
+                      ? GestureDetector(
+                          onTap: _getImage,
+                          child: Container(
                             alignment: const Alignment(0, 0.35),
                             constraints: const BoxConstraints(
                               minWidth: 250,
@@ -161,20 +166,40 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.white,
                               size: 80,
                             ),
-                          )
-                        : Container(
-                            constraints: const BoxConstraints(
-                              minWidth: 250,
-                              minHeight: 250,
-                              maxHeight: 400,
-                              maxWidth: 400,
-                            ),
-                            child: Image.file(
-                              file!,
-                              fit: BoxFit.cover,
-                            ),
                           ),
-                  ),
+                        )
+                      : Container(
+                          constraints: const BoxConstraints(
+                            minWidth: 250,
+                            minHeight: 250,
+                            maxHeight: 400,
+                            maxWidth: 400,
+                          ),
+                          child: Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Image.file(
+                                file!,
+                                fit: BoxFit.cover,
+                              ),
+                              IconButton(
+                                  onPressed: _clear,
+                                  splashRadius: 25,
+                                  icon: const Icon(
+                                    Icons.cancel_outlined,
+                                    color: Colors.white,
+                                    size: 30,
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 7,
+                                        spreadRadius: 7,
+                                      ),
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        ),
                 ),
               ),
               Expanded(
