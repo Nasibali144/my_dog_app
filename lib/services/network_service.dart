@@ -29,6 +29,7 @@ class NetworkService {
   static const API_IMAGE_LIST = "/v1/images/search";
   static const API_IMAGE_UPLOAD = "/v1/images/upload";
   static const API_MY_IMAGES = "/v1/images";
+  static const API_ONE_IMAGE = "/v1/images/"; // {ID}
   static const API_MY_FAVORITE = "/v1/favourites";
   static const API_FAVORITE_DELETE = "/v1/favourites/"; // {ID}
 
@@ -119,6 +120,13 @@ class NetworkService {
   // params
   static Map<String, String> paramsEmpty() {
     Map<String, String> map = {};
+    return map;
+  }
+
+  static Map<String, String> paramsOneImage(String imageId) {
+    Map<String, String> map = {
+      'image_id': imageId
+    };
     return map;
   }
 
