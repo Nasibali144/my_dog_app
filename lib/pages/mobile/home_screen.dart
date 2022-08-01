@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Image> allImage = [];
 
   int get limit {
-    return widget.crossAxisCount * 15;
+    return widget.crossAxisCount * 15 >= 100 ? 90 : widget.crossAxisCount * 15;
   }
 
   void pressButton(int screen) {
