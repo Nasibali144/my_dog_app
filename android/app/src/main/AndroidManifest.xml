@@ -2,9 +2,10 @@
     package="com.pdp.dog.app.my_dog_app">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="my_dog_app"
+        android:label="My Dog App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"

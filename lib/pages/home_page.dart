@@ -35,7 +35,58 @@ class _HomePageState extends State<HomePage> {
       body: Row(
         children: [
           Visibility(
-             visible: widget.crossAxisCount > 3,
+            visible: widget.crossAxisCount > 5,
+            child: Drawer(
+              backgroundColor: Colors.white,
+              width: 250,
+              child: Column(
+                children: [
+                  DrawerHeader(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(125),
+                      child: const Image(
+                        image: AssetImage("assets/images/logo.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  ListTile(
+                    onTap: () => _onPageChanged(0),
+                    leading: Icon(Icons.home_filled, size: _iconSize(0), color: _iconColor(0)),
+                    title: Text("Home"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ListTile(
+                    onTap: () => _onPageChanged(1),
+                    leading: Icon(Icons.search, size: _iconSize(1), color: _iconColor(1)),
+                    title: Text("Search"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ListTile(
+                    onTap: () => _onPageChanged(2),
+                    leading: Icon(CupertinoIcons.chat_bubble_text_fill, size: _iconSize(2), color: _iconColor(2)),
+                    title: Text("Category"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ListTile(
+                    onTap: () => _onPageChanged(3),
+                    leading: Icon(CupertinoIcons.profile_circled, size: _iconSize(3), color: _iconColor(3)),
+                    title: Text("Profile"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Visibility(
+             visible: widget.crossAxisCount > 3 && widget.crossAxisCount < 6,
              child: NavigationRail(
                minWidth: 100,
               onDestinationSelected: _onPageChanged,
@@ -61,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           ),
            ),
           SizedBox(
-            width: widget.crossAxisCount > 3 ? MediaQuery.of(context).size.width - 100 : MediaQuery.of(context).size.width,
+            width: widget.crossAxisCount > 5 ? MediaQuery.of(context).size.width - 250 : (widget.crossAxisCount > 3 ? MediaQuery.of(context).size.width - 100 : MediaQuery.of(context).size.width),
             child: IndexedStack(
               index: _initialPage,
               children: [
